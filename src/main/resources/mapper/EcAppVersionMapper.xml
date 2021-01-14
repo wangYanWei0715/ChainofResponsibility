@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinahandler.demo.chinahandlerdemo.app.mapping.EcAppVersionMapper">
+
+    <resultMap type="com.chinahandler.demo.chinahandlerdemo.app.entity.EcAppVersionEntity" id="EcAppVersionMap">
+        <result property="appVersionId" column="app_version_id" jdbcType="VARCHAR"/>
+        <result property="appType" column="app_type" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="downloadAddress" column="download_address" jdbcType="VARCHAR"/>
+        <result property="editor" column="editor" jdbcType="VARCHAR"/>
+        <result property="ifLatestVersion" column="if_latest_version" jdbcType="OTHER"/>
+        <result property="lastEditTime" column="last_edit_time" jdbcType="TIMESTAMP"/>
+        <result property="tipsMessage" column="tips_message" jdbcType="VARCHAR"/>
+        <result property="versionCode" column="version_code" jdbcType="VARCHAR"/>
+        <result property="versionName" column="version_name" jdbcType="VARCHAR"/>
+        <result property="ifForceUpdate" column="if_force_update" jdbcType="OTHER"/>
+        <result property="minVersionCode" column="min_version_code" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EcAppVersionMap">
+        select
+          app_version_id, app_type, create_time, creator, download_address, editor, if_latest_version, last_edit_time, tips_message, version_code, version_name, if_force_update, min_version_code
+        from ec_app_version
+        where app_version_id = #{appVersionId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EcAppVersionMap">
+        select
+          app_version_id, app_type, create_time, creator, download_address, editor, if_latest_version, last_edit_time, tips_message, version_code, version_name, if_force_update, min_version_code
+        from ec_app_version
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EcAppVersionMap">
+        select
+        app_version_id, app_type, create_time, creator, download_address, editor, if_latest_version, last_edit_time,
+        tips_message, version_code, version_name, if_force_update, min_version_code
+        from ec_app_version
+        <where>
+            <if test="appVersionId != null and appVersionId != ''">
+                and app_version_id = #{appVersionId}
+            </if>
+            <if test="appType != null and appType != ''">
+                and app_type = #{appType}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator}
+            </if>
+            <if test="downloadAddress != null and downloadAddress != ''">
+                and download_address = #{downloadAddress}
+            </if>
+            <if test="editor != null and editor != ''">
+                and editor = #{editor}
+            </if>
+            <if test="ifLatestVersion != null">
+                and if_latest_version = #{ifLatestVersion}
+            </if>
+            <if test="lastEditTime != null">
+                and last_edit_time = #{lastEditTime}
+            </if>
+            <if test="tipsMessage != null and tipsMessage != ''">
+                and tips_message = #{tipsMessage}
+            </if>
+            <if test="versionCode != null and versionCode != ''">
+                and version_code = #{versionCode}
+            </if>
+            <if test="versionName != null and versionName != ''">
+                and version_name = #{versionName}
+            </if>
+            <if test="ifForceUpdate != null">
+                and if_force_update = #{ifForceUpdate}
+            </if>
+            <if test="minVersionCode != null">
+                and min_version_code = #{minVersionCode}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="appVersionId" useGeneratedKeys="true">
+        insert into ec_app_version(app_type, create_time, creator, download_address, editor, if_latest_version, last_edit_time, tips_message, version_code, version_name, if_force_update, min_version_code)
+        values (#{appType}, #{createTime}, #{creator}, #{downloadAddress}, #{editor}, #{ifLatestVersion}, #{lastEditTime}, #{tipsMessage}, #{versionCode}, #{versionName}, #{ifForceUpdate}, #{minVersionCode})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update ec_app_version
+        <set>
+            <if test="appType != null and appType != ''">
+                app_type = #{appType},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="downloadAddress != null and downloadAddress != ''">
+                download_address = #{downloadAddress},
+            </if>
+            <if test="editor != null and editor != ''">
+                editor = #{editor},
+            </if>
+            <if test="ifLatestVersion != null">
+                if_latest_version = #{ifLatestVersion},
+            </if>
+            <if test="lastEditTime != null">
+                last_edit_time = #{lastEditTime},
+            </if>
+            <if test="tipsMessage != null and tipsMessage != ''">
+                tips_message = #{tipsMessage},
+            </if>
+            <if test="versionCode != null and versionCode != ''">
+                version_code = #{versionCode},
+            </if>
+            <if test="versionName != null and versionName != ''">
+                version_name = #{versionName},
+            </if>
+            <if test="ifForceUpdate != null">
+                if_force_update = #{ifForceUpdate},
+            </if>
+            <if test="minVersionCode != null">
+                min_version_code = #{minVersionCode},
+            </if>
+        </set>
+        where app_version_id = #{appVersionId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from ec_app_version where app_version_id = #{appVersionId}
+    </delete>
+
+</mapper>

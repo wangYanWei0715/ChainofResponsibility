@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinahandler.demo.chinahandlerdemo.app.mapping.EcAppTokenMapper">
+
+    <resultMap type="com.chinahandler.demo.chinahandlerdemo.app.entity.EcAppTokenEntity" id="EcAppTokenMap">
+        <result property="appTokenId" column="app_token_id" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="deviceId" column="device_id" jdbcType="VARCHAR"/>
+        <result property="tokenId" column="token_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EcAppTokenMap">
+        select
+          app_token_id, create_time, device_id, token_id
+        from ec_app_token
+        where app_token_id = #{appTokenId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EcAppTokenMap">
+        select
+          app_token_id, create_time, device_id, token_id
+        from ec_app_token
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EcAppTokenMap">
+        select
+        app_token_id, create_time, device_id, token_id
+        from ec_app_token
+        <where>
+            <if test="appTokenId != null and appTokenId != ''">
+                and app_token_id = #{appTokenId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="deviceId != null and deviceId != ''">
+                and device_id = #{deviceId}
+            </if>
+            <if test="tokenId != null and tokenId != ''">
+                and token_id = #{tokenId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="appTokenId" useGeneratedKeys="true">
+        insert into ec_app_token(create_time, device_id, token_id)
+        values (#{createTime}, #{deviceId}, #{tokenId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update ec_app_token
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="deviceId != null and deviceId != ''">
+                device_id = #{deviceId},
+            </if>
+            <if test="tokenId != null and tokenId != ''">
+                token_id = #{tokenId},
+            </if>
+        </set>
+        where app_token_id = #{appTokenId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from ec_app_token where app_token_id = #{appTokenId}
+    </delete>
+
+</mapper>

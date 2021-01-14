@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinahandler.demo.chinahandlerdemo.app.mapping.EcAppShareMapper">
+
+    <resultMap type="com.chinahandler.demo.chinahandlerdemo.app.entity.EcAppShareEntity" id="EcAppShareMap">
+        <result property="appShareId" column="app_share_id" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="downloadAddress" column="download_address" jdbcType="VARCHAR"/>
+        <result property="editor" column="editor" jdbcType="VARCHAR"/>
+        <result property="ifLatestVersion" column="if_latest_version" jdbcType="OTHER"/>
+        <result property="lastEditTime" column="last_edit_time" jdbcType="TIMESTAMP"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EcAppShareMap">
+        select
+          app_share_id, create_time, creator, download_address, editor, if_latest_version, last_edit_time, description, title
+        from ec_app_share
+        where app_share_id = #{appShareId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EcAppShareMap">
+        select
+          app_share_id, create_time, creator, download_address, editor, if_latest_version, last_edit_time, description, title
+        from ec_app_share
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EcAppShareMap">
+        select
+        app_share_id, create_time, creator, download_address, editor, if_latest_version, last_edit_time, description,
+        title
+        from ec_app_share
+        <where>
+            <if test="appShareId != null and appShareId != ''">
+                and app_share_id = #{appShareId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="creator != null and creator != ''">
+                and creator = #{creator}
+            </if>
+            <if test="downloadAddress != null and downloadAddress != ''">
+                and download_address = #{downloadAddress}
+            </if>
+            <if test="editor != null and editor != ''">
+                and editor = #{editor}
+            </if>
+            <if test="ifLatestVersion != null">
+                and if_latest_version = #{ifLatestVersion}
+            </if>
+            <if test="lastEditTime != null">
+                and last_edit_time = #{lastEditTime}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="appShareId" useGeneratedKeys="true">
+        insert into ec_app_share(create_time, creator, download_address, editor, if_latest_version, last_edit_time, description, title)
+        values (#{createTime}, #{creator}, #{downloadAddress}, #{editor}, #{ifLatestVersion}, #{lastEditTime}, #{description}, #{title})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update ec_app_share
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="creator != null and creator != ''">
+                creator = #{creator},
+            </if>
+            <if test="downloadAddress != null and downloadAddress != ''">
+                download_address = #{downloadAddress},
+            </if>
+            <if test="editor != null and editor != ''">
+                editor = #{editor},
+            </if>
+            <if test="ifLatestVersion != null">
+                if_latest_version = #{ifLatestVersion},
+            </if>
+            <if test="lastEditTime != null">
+                last_edit_time = #{lastEditTime},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+        </set>
+        where app_share_id = #{appShareId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from ec_app_share where app_share_id = #{appShareId}
+    </delete>
+
+</mapper>

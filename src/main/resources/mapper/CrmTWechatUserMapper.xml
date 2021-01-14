@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinahandler.demo.chinahandlerdemo.user.mapping.CrmTWechatUserMapper">
+
+    <resultMap type="com.chinahandler.demo.chinahandlerdemo.user.entity.CrmTWechatUserEntity" id="CrmTWechatUserMap">
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="openId" column="open_id" jdbcType="VARCHAR"/>
+        <result property="unionId" column="union_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CrmTWechatUserMap">
+        select
+          user_id, open_id, union_id
+        from crm_t_wechat_user
+        where user_id = #{userId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CrmTWechatUserMap">
+        select
+          user_id, open_id, union_id
+        from crm_t_wechat_user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CrmTWechatUserMap">
+        select
+        user_id, open_id, union_id
+        from crm_t_wechat_user
+        <where>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="openId != null and openId != ''">
+                and open_id = #{openId}
+            </if>
+            <if test="unionId != null and unionId != ''">
+                and union_id = #{unionId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
+        insert into crm_t_wechat_user(open_id, union_id)
+        values (#{openId}, #{unionId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update crm_t_wechat_user
+        <set>
+            <if test="openId != null and openId != ''">
+                open_id = #{openId},
+            </if>
+            <if test="unionId != null and unionId != ''">
+                union_id = #{unionId},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from crm_t_wechat_user where user_id = #{userId}
+    </delete>
+
+</mapper>
